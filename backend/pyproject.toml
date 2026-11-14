@@ -1,0 +1,32 @@
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "N", "C4", "RET"]
+
+[tool.ruff.lint.per-file-ignores]
+"simulation/engine.py" = ["E402"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = [
+    "panda: needs a working Panda3D graphics pipe (GPU or software OpenGL)",
+    "e2e: drives the real server and the browser with Playwright",
+]
+addopts = "-q"
+
+[tool.coverage.run]
+branch = true
+source = ["app", "simulation", "agents"]
+omit = ["simulation/panda_viewer.py"]
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
+exclude_also = ["if __name__ == .__main__.:", "\\.\\.\\."]
+
+[tool.coverage.html]
+directory = "htmlcov"
+title = "SIMFORGE backend coverage"

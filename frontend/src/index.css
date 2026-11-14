@@ -1,0 +1,288 @@
+@import "tailwindcss";
+
+/* Design tokens. Dark is the default; [data-theme="light"] overrides the palette. */
+@theme {
+  --color-canvas: var(--sf-canvas);
+  --color-panel: var(--sf-panel);
+  --color-raised: var(--sf-raised);
+  --color-line: var(--sf-line);
+  --color-ink: var(--sf-ink);
+  --color-soft: var(--sf-soft);
+  --color-faint: var(--sf-faint);
+  --color-accent: var(--sf-accent);
+  --color-accent-ink: var(--sf-accent-ink);
+  --color-good: var(--sf-good);
+  --color-warn: var(--sf-warn);
+  --color-bad: var(--sf-bad);
+  --color-info: var(--sf-info);
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", Consolas, "SFMono-Regular", Menlo, monospace;
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.25), 0 12px 32px -12px rgb(0 0 0 / 0.45);
+  --animate-rise: rise 0.35s ease-out both;
+  --animate-pulse-dot: pulse-dot 1.6s ease-in-out infinite;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.35;
+    }
+  }
+}
+
+:root,
+[data-theme="dark"] {
+  --sf-canvas: #080d18;
+  --sf-panel: #0e1626;
+  --sf-raised: #152033;
+  --sf-line: #223049;
+  --sf-ink: #e8eef9;
+  --sf-soft: #a3b1c9;
+  --sf-faint: #6b7a94;
+  --sf-accent: #22d3ee;
+  --sf-accent-ink: #04222a;
+  --sf-good: #34d399;
+  --sf-warn: #fb923c;
+  --sf-bad: #f87171;
+  --sf-info: #818cf8;
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  --sf-canvas: #f3f6fb;
+  --sf-panel: #ffffff;
+  --sf-raised: #f1f5fa;
+  --sf-line: #d9e1ec;
+  --sf-ink: #101a2c;
+  --sf-soft: #46546c;
+  --sf-faint: #6c7a92;
+  --sf-accent: #0e7490;
+  --sf-accent-ink: #ffffff;
+  --sf-good: #047857;
+  --sf-warn: #c2410c;
+  --sf-bad: #b91c1c;
+  --sf-info: #4338ca;
+  --shadow-card: 0 1px 2px rgb(16 26 44 / 0.06), 0 10px 28px -14px rgb(16 26 44 / 0.18);
+  color-scheme: light;
+}
+
+@layer base {
+  html {
+    background: var(--sf-canvas);
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--sf-canvas);
+    color: var(--sf-ink);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--sf-accent);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--sf-accent) 35%, transparent);
+  }
+
+  progress {
+    appearance: none;
+    border: 0;
+    height: 0.5rem;
+    width: 100%;
+    border-radius: 999px;
+    overflow: hidden;
+    background: var(--sf-raised);
+    color: var(--sf-accent);
+  }
+
+  progress::-webkit-progress-bar {
+    background: var(--sf-raised);
+  }
+
+  progress::-webkit-progress-value {
+    background: currentColor;
+    border-radius: 999px;
+    transition: width 0.3s ease;
+  }
+
+  progress::-moz-progress-bar {
+    background: currentColor;
+    border-radius: 999px;
+  }
+
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: var(--sf-line);
+    border-radius: 999px;
+    border: 2px solid var(--sf-panel);
+  }
+}
+
+@layer components {
+  .app-backdrop {
+    background:
+      radial-gradient(900px 480px at 85% -10%, color-mix(in srgb, var(--sf-accent) 9%, transparent), transparent 70%),
+      radial-gradient(700px 420px at -5% 10%, color-mix(in srgb, var(--sf-info) 8%, transparent), transparent 70%),
+      var(--sf-canvas);
+  }
+
+  .hero-gradient {
+    background: linear-gradient(
+      120deg,
+      color-mix(in srgb, var(--sf-accent) 16%, var(--sf-panel)) 0%,
+      var(--sf-panel) 45%,
+      color-mix(in srgb, var(--sf-info) 12%, var(--sf-panel)) 100%
+    );
+  }
+
+  .viewport-frame {
+    background:
+      linear-gradient(var(--sf-line) 1px, transparent 1px) 0 0 / 32px 32px,
+      linear-gradient(90deg, var(--sf-line) 1px, transparent 1px) 0 0 / 32px 32px,
+      #0b1220;
+  }
+
+  /* Rendered Markdown in the documentation pages. */
+  .prose-doc {
+    color: var(--sf-soft);
+    max-width: 78ch;
+  }
+
+  .prose-doc h1 {
+    color: var(--sf-ink);
+    font-size: 1.7rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 1rem;
+  }
+
+  .prose-doc h2 {
+    color: var(--sf-ink);
+    font-size: 1.15rem;
+    font-weight: 650;
+    margin: 2rem 0 0.6rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid var(--sf-line);
+  }
+
+  .prose-doc h3 {
+    color: var(--sf-ink);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 1.4rem 0 0.4rem;
+  }
+
+  .prose-doc p,
+  .prose-doc ul,
+  .prose-doc ol {
+    margin: 0 0 0.9rem;
+  }
+
+  .prose-doc ul {
+    list-style: disc;
+    padding-left: 1.3rem;
+  }
+
+  .prose-doc ol {
+    list-style: decimal;
+    padding-left: 1.3rem;
+  }
+
+  .prose-doc li {
+    margin-bottom: 0.3rem;
+  }
+
+  .prose-doc a {
+    color: var(--sf-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .prose-doc strong {
+    color: var(--sf-ink);
+  }
+
+  .prose-doc code {
+    font-family: var(--font-mono);
+    font-size: 0.86em;
+    background: var(--sf-raised);
+    border: 1px solid var(--sf-line);
+    border-radius: 5px;
+    padding: 0.08em 0.35em;
+    color: var(--sf-ink);
+  }
+
+  .prose-doc pre {
+    background: #0b1220;
+    border: 1px solid var(--sf-line);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    overflow-x: auto;
+    margin: 0 0 1rem;
+  }
+
+  .prose-doc pre code {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    color: #cfe6f5;
+  }
+
+  .prose-doc table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 1rem;
+    font-size: 0.92em;
+    display: block;
+    overflow-x: auto;
+  }
+
+  .prose-doc th,
+  .prose-doc td {
+    border: 1px solid var(--sf-line);
+    padding: 0.4rem 0.65rem;
+    text-align: left;
+  }
+
+  .prose-doc th {
+    background: var(--sf-raised);
+    color: var(--sf-ink);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
